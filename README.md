@@ -2,7 +2,7 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 
 # Getting Started
 
-# Please refer to https://gametrees.vercel.app/ for production build.
+# Please refer to https://game-trees.vercel.app/ for production build.
 
 ## Prerequisite:
 
@@ -211,7 +211,7 @@ source loadStorePicturesTest.sql;
 - Wishlist: backend fetching
 - Search page: database query, backend and frontend
 - Store page: store details, store inventories, store details edit, inventories edit
-- Inventory page: stores management, games adding, new store creating 
+- Inventory page: stores management, games adding, new store creating
 - Homepage: games and stores fetching
 - Wishlist button: add game, remove game logic and queries
 - Project Management: Reminder and team engagement
