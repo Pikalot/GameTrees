@@ -1,5 +1,15 @@
 import executeQuery from "@/database/mysqldb";
 
+interface Result {
+  gid: number;
+  title: string;
+  price: number;
+  discount: number;
+  discountedPrice: number;
+  storeName: string;
+  storeId: number;
+}
+
 export type GameDeal = {
   gid: number;
   title: string;
@@ -36,7 +46,7 @@ export class DiscountedGamesRep {
       ${limit ? `LIMIT ${limit}` : ""};
     `;
 
-    const result = await executeQuery(query, []) as any[];
+    const result = await executeQuery(query, []) as Result[];
 
     return result.map((row) => ({
       gid: row.gid,
