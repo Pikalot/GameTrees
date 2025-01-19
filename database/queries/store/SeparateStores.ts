@@ -66,8 +66,7 @@ export class SeparateStoresRep {
             FROM Stores S
             LEFT JOIN StoreHours SH ON S.sid = SH.sid
             WHERE S.city ${isBayArea ? "IN" : "NOT IN"} (${cities.map(() => '?').join(', ')})
-            ORDER BY S.sid, FIELD(SH.day, 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday')
-            LIMIT 65
+            ORDER BY S.sid, FIELD(SH.day, 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday');
         `;
         const result = await executeQuery(query, cities) as StoreData[];
 
