@@ -1,7 +1,7 @@
 -- Reset DB
-DROP DATABASE gtsdb;
-CREATE DATABASE gtsdb;
-USE gtsdb;
+DROP DATABASE GameTree;
+CREATE DATABASE GameTree;
+USE GameTree;
 
 SET SESSION sort_buffer_size = 4194304;
 
