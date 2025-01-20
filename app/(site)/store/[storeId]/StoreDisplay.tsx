@@ -208,11 +208,20 @@ const StoreDisplay = ({images, storeId, uid, storeDetails, games, storeHours, us
     };
 
     const handleStateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setEditedState(e.target.value);
+        if (e.target.value.length <= 2) setEditedState(e.target.value);
     };
 
     const handleZipCodeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setEditedZipCode(e.target.value);
+    };
+
+    const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+        if (!/^\d$/.test(e.key)) {
+            e.preventDefault(); // Block non-numeric input
+            setErrorMsg("Only numbers are allowed.");
+        } else {
+            setErrorMsg(""); // Clear error
+        }
     };
 
     const handleCountryChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -383,11 +392,13 @@ const StoreDisplay = ({images, storeId, uid, storeDetails, games, storeHours, us
                                         onChange={handleStateChange}
                                         className="input input-bordered w-full mt-2"
                                         placeholder="Edit state"
+                                        maxLength={2}
                                         />
                                     <input
-                                        type="text"
+                                        type="number"
                                         value={editedZipCode}
                                         onChange={handleZipCodeChange}
+                                        onKeyPress={handleKeyPress}
                                         className="input input-bordered w-full mt-2"
                                         placeholder="Edit zip code"
                                         />
@@ -583,7 +594,7 @@ const StoreDisplay = ({images, storeId, uid, storeDetails, games, storeHours, us
             <div className="space-y-4 p-6">
                 {canEdit && (
                     <div className="flex items-center justify-between">
-                        <h2 className="text-xl text-blue-900 font-bold">Games Available</h2>
+                        <h2 className="text-xl text-blue-900 font-bold dark:text-white">Games Available</h2>
                         {/* Edit Inventories Button */}
                         <button
                             className="btn btn-primary text-white font-bold py-2 px-4 rounded-lg border-2 border-white shadow-lg mb-4"
@@ -592,7 +603,7 @@ const StoreDisplay = ({images, storeId, uid, storeDetails, games, storeHours, us
                             {isInventoryEditing ? "Cancel" : "Edit Inventories"}
                         </button>
                     </div>
-                )};
+                )}
 
                 {isInventoryEditing && (
                     <div className="flex items-center">

@@ -21,14 +21,14 @@ const DiscountEditModal: React.FC<DiscountEditModalProps> = ({ onClose, onSave }
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
       <div className="bg-white rounded-lg shadow-lg p-6 w-96">
-        <h2 className="text-lg font-bold mb-4">Set Discount</h2>
+        <h2 className="text-lg font-bold mb-4 text-blue-900">Set Discount</h2>
         <p className="text-gray-600 mb-4">Enter the discount percentage for the selected games:</p>
         <input
           type="number"
           value={discount !== null ? discount : ""} // Show 0 correctly, treat null as empty
           onChange={(e) => setDiscount(Number(e.target.value))}
           placeholder="Enter discount (%)"
-          className="w-full border rounded px-2 py-1 mb-4 text-gray-900"
+          className="w-full border rounded px-2 py-1 mb-4 text-gray-900 dark:text-white"
         />
         <div className="flex justify-end space-x-4">
           <button

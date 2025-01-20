@@ -50,11 +50,12 @@ export const PATCH = async (req: Request) => {
         if (street) updateData.street = street;
         if (city) updateData.city = city;
         if (state) updateData.state = state;
-        if (zipCode) updateData.zipCode = zipCode;
+        if (zipCode) updateData.zip = zipCode;
         if (country) updateData.country = country;
         if (modality) updateData.modality = modality;
 
         if (Object.keys(updateData).length > 0) {
+            console.log(updateData);
             const detailsUpdated = await updateStoreDetails(storeId, updateData);
             if (!detailsUpdated) {
                 return NextResponse.json({ message: "Failed to update store details" }, { status: 500 });
