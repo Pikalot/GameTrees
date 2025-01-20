@@ -7,6 +7,8 @@ export default function ClientAccountSettings() {
     const { data: session, update: updateSession } = useSession();
     const [username, setUsername] = useState("");
     const [email, setEmail] = useState("");
+    const [dob, setDob] = useState("");
+    const [phone, setPhone] = useState("");
     const [firstname, setFirstName] = useState("");
     const [lastname, setLastname] = useState("");
     const [password, setPassword] = useState("");
@@ -17,6 +19,8 @@ export default function ClientAccountSettings() {
 
     const [isEditingUsername, setIsEditingUsername] = useState(false);
     const [isEditingEmail, setIsEditingEmail] = useState(false);
+    const [isEditingPhone, setIsEditingPhone] = useState(false);
+    const [isEditingDob, setIsEditingDob] = useState(false);
     const [isEditingName, setIsEditingName] = useState(false);
     const [isEditingLastname, setIsEditingLastname] = useState(false);
     const [isEditingPassword, setIsEditingPassword] = useState(false);
@@ -30,6 +34,8 @@ export default function ClientAccountSettings() {
         firstname !== "" ||
         lastname !== "" ||
         password !== "" ||
+        dob !== "" ||
+        phone !== "" ||
         selectedFile !== null;
 
     const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -50,7 +56,8 @@ export default function ClientAccountSettings() {
         if (lastname) formData.append("lastname", lastname);
         if (password) formData.append("password", password);
         if (selectedFile) formData.append("file", selectedFile);
-
+        if (dob) formData.append("dob", dob);
+        if (phone) formData.append("phone", phone);
 
         try {
             const response = await fetch("/api/users/update", {
@@ -69,6 +76,8 @@ export default function ClientAccountSettings() {
                             email: email || session?.user.email,
                             firstname: firstname || session?.user.firstname,
                             lastname: lastname || session?.user.lastname,
+                            dob: dob,
+                            phone: phone,
                         },
                     });
                     await new Promise((resolve) => setTimeout(resolve, 1200));
@@ -126,7 +135,8 @@ export default function ClientAccountSettings() {
                                         onChange={(e) => setUsername(e.target.value)}
                                         disabled={!isEditingUsername}
                                         placeholder={session?.user.username}
-                                        className="bg-transparent text-black dark:text-white placeholder-gray-500 dark:placeholder-gray-400 p-2 w-full focus:outline-none"
+                                        className={`bg-transparent dark:text-white placeholder-gray-500 dark:placeholder-gray-400 p-2 w-full focus:outline-none 
+                                            ${isEditingUsername ? "text-white" : "text-black"}`}
                                         autoComplete="off"
                                     />
                                 </div>
@@ -164,7 +174,8 @@ export default function ClientAccountSettings() {
                                         onChange={(e) => setFirstName(e.target.value)}
                                         disabled={!isEditingName}
                                         placeholder={session?.user.firstname}
-                                        className="bg-transparent text-black dark:text-white placeholder-gray-500 dark:placeholder-gray-400 p-2 w-full focus:outline-none"
+                                        className={`bg-transparent dark:text-white placeholder-gray-500 dark:placeholder-gray-400 p-2 w-full focus:outline-none 
+                                            ${isEditingName ? "text-white" : "text-black"}`}
                                         autoComplete="off"
                                     />
                                 </div>
@@ -204,7 +215,8 @@ export default function ClientAccountSettings() {
                                         onChange={(e) => setLastname(e.target.value)}
                                         disabled={!isEditingLastname}
                                         placeholder={session?.user.lastname}
-                                        className="bg-transparent text-black dark:text-white placeholder-gray-500 dark:placeholder-gray-400 p-2 w-full focus:outline-none"
+                                        className={`bg-transparent dark:text-white placeholder-gray-500 dark:placeholder-gray-400 p-2 w-full focus:outline-none 
+                                            ${isEditingLastname ? "text-white" : "text-black"}`}
                                         autoComplete="off"
                                     />
                                 </div>
@@ -240,7 +252,8 @@ export default function ClientAccountSettings() {
                                         onChange={(e) => setEmail(e.target.value)}
                                         disabled={!isEditingEmail}
                                         placeholder={session?.user.email}
-                                        className="bg-transparent text-black dark:text-white placeholder-gray-500 dark:placeholder-gray-400 p-2 w-full focus:outline-none"
+                                        className={`bg-transparent dark:text-white placeholder-gray-500 dark:placeholder-gray-400 p-2 w-full focus:outline-none 
+                                            ${isEditingEmail ? "text-white" : "text-black"}`}
                                         autoComplete="off"
                                     />
                                 </div>
@@ -251,6 +264,86 @@ export default function ClientAccountSettings() {
                                 >
                                     <p>
                                         {isEditingEmail ? "Lock" : "Edit"}
+                                    </p>
+                                </button>
+                            </div>
+                        </div>
+
+                        {/* Phone Input */}
+                        <div className="block">
+                            <label className="text-sm font-medium text-gray-900 dark:text-white">Phone</label>
+                            <div className="flex flex-col md:flex-row md:space-x-3 items-stretch md:items-center">
+                                <div className="input input-bordered flex items-center gap-2 w-full bg-slate-700 rounded-lg">
+                                    <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        className="h-4 w-4 opacity-70 fill-black dark:fill-current"
+                                        viewBox="0 0 16 16"
+                                    >
+                                        
+                                        <path d="M3.654 1.328a.678.678 0 0 1 .58-.326h2.678c.252 0 .49.15.581.38l.894 2.21c.096.238.017.513-.189.66l-1.298.939a.678.678 0 0 0-.175.746c.304.773.849 1.78 1.522 2.454.673.674 1.68 1.219 2.454 1.522a.678.678 0 0 0 .746-.175l.94-1.298a.678.678 0 0 1 .66-.189l2.21.894c.231.091.38.329.38.581v2.678a.678.678 0 0 1-.326.58l-2.488 1.672c-.66.442-1.478.568-2.225.37a11.354 11.354 0 0 1-3.849-2.172 11.354 11.354 0 0 1-2.172-3.849c-.198-.747-.072-1.566.37-2.225L3.654 1.328Z" />
+                                    </svg>
+                                    
+                                    <input
+                                        type="text"
+                                        value={phone}
+                                        onChange={(e) => setPhone(e.target.value)}
+                                        disabled={!isEditingPhone}
+                                        placeholder="(000) 000-0000"
+                                        className={`bg-transparent dark:text-white placeholder-gray-500 dark:placeholder-gray-400 p-2 w-full focus:outline-none 
+                                            ${isEditingPhone ? "text-white" : "text-black"}`}
+                                        autoComplete="off"
+                                    />
+                                </div>
+                                <button
+                                    type="button"
+                                    onClick={() => setIsEditingPhone(!isEditingPhone)}
+                                    className="mt-3 md:mt-0 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 md:w-[5em]"
+                                >
+                                    <p>
+                                        {isEditingEmail ? "Lock" : "Edit"}
+                                    </p>
+                                </button>
+                            </div>
+                        </div>
+
+                        {/* DOB Input */}
+                        <div className="block">
+                            <label className="text-sm font-medium text-gray-900 dark:text-white">Date of Birth</label>
+                            <div className="flex flex-col md:flex-row md:space-x-3 items-stretch md:items-center">
+                                <div className="input input-bordered flex items-center gap-2 w-full bg-slate-700 rounded-lg">
+                                    <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        className="h-4 w-4 opacity-70 fill-black dark:fill-current"
+                                        viewBox="0 0 24 24"
+                                        stroke="currentColor"
+                                        fill="none"
+                                    >
+                                        <path
+                                            strokeLinecap="round"
+                                            strokeLinejoin="round"
+                                            strokeWidth={2}
+                                            d="M8 7v1m8-1v1m-9 4h10M3 10h18M5 3h14a2 2 0 012 2v14a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2z"
+                                        />
+                                    </svg>
+
+                                    <input
+                                        type="date" // Native date picker
+                                        value={dob}
+                                        onChange={(e) => setDob(e.target.value)}
+                                        disabled={!isEditingDob}
+                                        placeholder="YYYY-MM-DD"
+                                        className={`bg-transparent dark:text-white placeholder-gray-500 dark:placeholder-gray-400 p-2 w-full focus:outline-none 
+                                            ${isEditingDob ? "text-white" : "text-black"}`}
+                                        autoComplete="off"
+                                    />
+                                </div>
+                                <button
+                                    type="button"
+                                    onClick={() => setIsEditingDob(!isEditingDob)}
+                                    className="mt-3 md:mt-0 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 md:w-[5em]"
+                                >
+                                    <p>
+                                        {isEditingDob ? "Lock" : "Edit"}
                                     </p>
                                 </button>
                             </div>
@@ -278,7 +371,8 @@ export default function ClientAccountSettings() {
                                         onChange={(e) => setPassword(e.target.value)}
                                         disabled={!isEditingPassword}
                                         placeholder={"Enter new password"}
-                                        className="bg-transparent text-black dark:text-white placeholder-gray-500 dark:placeholder-gray-400 p-2 w-full focus:outline-none"
+                                        className={`bg-transparent dark:text-white placeholder-gray-500 dark:placeholder-gray-400 p-2 w-full focus:outline-none
+                                                ${isEditingPassword ? "text-white" : "text-black"}`}
                                         autoComplete="off"
                                     />
                                 </div>
