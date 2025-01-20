@@ -16,7 +16,7 @@ export const PATCH = async (req: Request) => {
     try {
         // Parse the request for JSON or form-data
         const contentType = req.headers.get("content-type") || "";
-        let username, email, firstname, lastname, password, image;
+        let username, email, firstname, lastname, password, image, phone, dob;
 
         if (contentType.includes("application/json")) {
             const body = await req.json();
@@ -25,6 +25,8 @@ export const PATCH = async (req: Request) => {
             firstname = body.firstname;
             lastname = body.lastname;
             password = body.password;
+            phone = body.phone;
+            dob = body.dob;
         } else if (contentType.includes("multipart/form-data")) {
             const formData = await req.formData();
             username = formData.get("username");
@@ -33,10 +35,12 @@ export const PATCH = async (req: Request) => {
             lastname = formData.get("lastname");
             password = formData.get("password");
             image = formData.get("file") as File | null;
+            phone = formData.get("phone");
+            dob = formData.get("dob");
         }
 
         // Ensure only non-empty fields
-        if (!username && !email && !firstname && !lastname && !password && !image) {
+        if (!username && !email && !firstname && !lastname && !password && !image && !phone && !dob) {
             return NextResponse.json({ message: "No fields to update" }, { status: 400 });
         }
 
@@ -68,6 +72,8 @@ export const PATCH = async (req: Request) => {
         if (firstname) updateData.firstname = firstname;
         if (lastname) updateData.lastname = lastname;
         if (password) updateData.password = password;
+        if (phone) updateData.phone = phone;
+        if (dob) updateData.dob = dob;
 
         if (Object.keys(updateData).length > 0) {
             const detailsUpdated = await updateUserDetails(session.user.id as unknown as number, updateData);
